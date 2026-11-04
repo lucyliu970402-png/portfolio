@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>刘丽君 · 动画师作品集</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d12;
+      --bg2: #13131c;
+      --bg3: #1a1a28;
+      --accent: #7c5cfc;
+      --accent2: #b48aff;
+      --text: #e8e8f0;
+      --muted: #8888aa;
+      --card: #16162080;
+      --border: #2a2a40;
+      --gold: #f0c060;
+      --radius: 14px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { color: #fff; }
+
+    /* ===== Scrollbar ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ===== Nav ===== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 64px;
+      background: rgba(13,13,18,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 1.15rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--accent2), #fff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      color: var(--muted); font-size: 0.9rem; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ===== Hero ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 100px 5vw 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,92,252,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(180,138,255,0.1) 0%, transparent 60%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(124,92,252,0.15);
+      border: 1px solid rgba(124,92,252,0.4);
+      color: var(--accent2);
+      font-size: 0.8rem; letter-spacing: 3px;
+      padding: 4px 16px; border-radius: 20px;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 800; letter-spacing: -1px;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 1.2rem;
+    }
+    .hero-title {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--muted); margin-bottom: 1.8rem;
+      letter-spacing: 1px;
+    }
+    .hero-desc {
+      font-size: 1rem; color: #aaa;
+      max-width: 520px; margin: 0 auto 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: 12px 28px; border-radius: 40px;
+      font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: all .25s;
+      border: none; outline: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(124,92,252,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(124,92,252,0.5); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(124,92,252,0.08); }
+
+    /* ===== Section ===== */
+    section { padding: 90px 5vw; }
+    .section-header { text-align: center; margin-bottom: 60px; }
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--accent2); margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 700; color: var(--text);
+    }
+    .divider {
+      width: 48px; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px; margin: 14px auto 0;
+    }
+
+    /* ===== About ===== */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; max-width: 1000px; margin: 0 auto;
+      align-items: start;
+    }
+    .about-info h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+    .about-info p { color: var(--muted); margin-bottom: 1.5rem; line-height: 1.9; }
+    .info-list { list-style: none; }
+    .info-list li {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      font-size: 0.9rem; color: var(--muted);
+    }
+    .info-list li:last-child { border-bottom: none; }
+    .info-list .icon { font-size: 1.1rem; width: 24px; text-align: center; }
+    .info-list strong { color: var(--text); }
+
+    /* ===== Skills ===== */
+    .skills-block h3 { font-size: 1.1rem; color: var(--accent2); margin-bottom: 1.2rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem; }
+    .skill-tag {
+      background: rgba(124,92,252,0.12);
+      border: 1px solid rgba(124,92,252,0.25);
+      color: var(--text); font-size: 0.82rem;
+      padding: 6px 14px; border-radius: 20px;
+      transition: all .2s;
+    }
+    .skill-tag:hover { background: rgba(124,92,252,0.25); border-color: var(--accent); }
+    .skill-tag.ai-tool {
+      background: rgba(240,192,96,0.1);
+      border-color: rgba(240,192,96,0.3);
+      color: var(--gold);
+    }
+    .skill-tag.ai-tool:hover { background: rgba(240,192,96,0.2); }
+
+    /* ===== Experience ===== */
+    #experience { background: var(--bg); }
+    .timeline { max-width: 800px; margin: 0 auto; position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 20px; top: 8px; bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+    }
+    .timeline-item {
+      display: flex; gap: 2rem;
+      margin-bottom: 50px; position: relative;
+    }
+    .timeline-dot {
+      flex-shrink: 0;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 0 0 4px rgba(124,92,252,0.15);
+      position: relative; z-index: 1;
+    }
+    .timeline-body {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      flex: 1;
+      transition: border-color .2s;
+    }
+    .timeline-body:hover { border-color: rgba(124,92,252,0.4); }
+    .timeline-period {
+      font-size: 0.78rem; color: var(--accent2);
+      letter-spacing: 1px; margin-bottom: 6px;
+    }
+    .timeline-company {
+      font-size: 1.1rem; font-weight: 700; margin-bottom: 4px;
+    }
+    .timeline-role {
+      font-size: 0.85rem; color: var(--muted); margin-bottom: 12px;
+    }
+    .timeline-desc { font-size: 0.9rem; color: #aaa; margin-bottom: 14px; line-height: 1.8; }
+    .projects-label { font-size: 0.78rem; color: var(--muted); margin-bottom: 6px; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .project-tag {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.78rem;
+      padding: 3px 10px; border-radius: 10px;
+    }
+
+    /* ===== Works ===== */
+    #works { background: var(--bg2); }
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px; max-width: 1100px; margin: 0 auto;
+    }
+    .work-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+    .work-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(124,92,252,0.4);
+      box-shadow: 0 12px 40px rgba(124,92,252,0.12);
+    }
+    .work-video {
+      position: relative; padding-top: 56.25%;
+      background: #0a0a12;
+    }
+    .work-video iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: none;
+    }
+    .work-video-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
+      cursor: pointer;
+    }
+    .play-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(124,92,252,0.2);
+      border: 2px solid rgba(124,92,252,0.5);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      transition: all .2s;
+    }
+    .work-video-placeholder:hover .play-icon {
+      background: rgba(124,92,252,0.4); transform: scale(1.1);
+    }
+    .placeholder-hint { font-size: 0.78rem; color: var(--muted); }
+    .work-info { padding: 18px 20px; }
+    .work-title { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+    .work-desc { font-size: 0.85rem; color: var(--muted); }
+    .work-type {
+      display: inline-block;
+      font-size: 0.72rem; letter-spacing: 1px;
+      background: rgba(124,92,252,0.12);
+      border: 1px solid rgba(124,92,252,0.25);
+      color: var(--accent2);
+      padding: 3px 10px; border-radius: 10px;
+      margin-top: 8px;
+    }
+
+    /* Add Video Button */
+    .add-work-card {
+      background: var(--bg3);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px; min-height: 240px;
+      cursor: pointer; transition: all .2s;
+      color: var(--muted);
+    }
+    .add-work-card:hover { border-color: var(--accent); color: var(--accent2); }
+    .add-work-card .plus { font-size: 2rem; }
+    .add-work-card span { font-size: 0.85rem; }
+
+    /* ===== Contact ===== */
+    #contact { background: var(--bg); }
+    .contact-wrapper {
+      max-width: 600px; margin: 0 auto; text-align: center;
+    }
+    .contact-desc { color: var(--muted); margin-bottom: 2.5rem; }
+    .contact-cards {
+      display: flex; flex-wrap: wrap;
+      gap: 16px; justify-content: center;
+    }
+    .contact-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 28px;
+      display: flex; align-items: center; gap: 14px;
+      transition: all .2s; min-width: 200px;
+    }
+    .contact-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .contact-card .ci { font-size: 1.5rem; }
+    .contact-card .cl { text-align: left; }
+    .contact-card .cl small { display: block; font-size: 0.75rem; color: var(--muted); }
+    .contact-card .cl strong { font-size: 0.9rem; }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align: center; padding: 30px 5vw;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem; color: var(--muted);
+    }
+
+    /* ===== Floating gradient orbs ===== */
+    .orb {
+      position: fixed; pointer-events: none; z-index: -1;
+      border-radius: 50%; filter: blur(80px); opacity: 0.07;
+    }
+    .orb1 { width: 600px; height: 600px; background: var(--accent); top: -200px; right: -150px; }
+    .orb2 { width: 400px; height: 400px; background: #ff6bb0; bottom: 10%; left: -100px; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .nav-links { display: none; }
+      .timeline::before { display: none; }
+      .timeline-item { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Decorative orbs -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<!-- ===== Nav ===== -->
+<nav>
+  <div class="nav-logo">LIU LIJUN</div>
+  <div class="nav-links">
+    <a href="#about">关于我</a>
+    <a href="#experience">工作经历</a>
+    <a href="#works">作品集</a>
+    <a href="#contact">联系我</a>
+  </div>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Portfolio · 动画师作品集</div>
+    <h1 class="hero-name">刘丽君</h1>
+    <p class="hero-title">AI 动画设计 &nbsp;·&nbsp; 二维动画师 &nbsp;·&nbsp; 后期包装</p>
+    <p class="hero-desc">
+      5年+ 动画与后期经验，服务于 CCTV、腾讯视频、学而思等头部客户。<br/>
+      深耕 MG 动画、后期合成与 AI 特效领域，探索 AI 技术在影视制作中的边界。
+    </p>
+    <div class="hero-btns">
+      <a href="#works" class="btn btn-primary">查看作品集</a>
+      <a href="#contact" class="btn btn-outline">联系我</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== About ===== -->
+<section id="about">
+  <div class="section-header">
+    <div class="section-label">About Me</div>
+    <h2 class="section-title">关于我</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-info">
+      <h3>你好，我是刘丽君 👋</h3>
+      <p>
+        我是一名专注于 MG 动画、二维动画及 AI 特效的动画师，毕业于北京航空航天大学。
+        从 CCTV 军事栏目包装到腾讯 AI 影视特效，我始终保持对技术与创意融合的热忱。
+      </p>
+      <p>
+        目前就职于腾讯北京（PCG 事业部），致力于将前沿 AI 技术应用于电视剧的服装替换、
+        口型修改、年龄编辑等后期工序，参与多部爆款剧集制作。
+      </p>
+      <ul class="info-list">
+        <li><span class="icon">🎂</span><span>出生年份 <strong>1997 年 4 月</strong></span></li>
+        <li><span class="icon">🏠</span><span>所在地 <strong>北京市 · 丰台区</strong></span></li>
+        <li><span class="icon">🎓</span><span>学历 <strong>大专 · 北京航空航天大学</strong></span></li>
+        <li><span class="icon">💼</span><span>意向 <strong>AI 动画设计 / 二维动画师 / 后期包装</strong></span></li>
+      </ul>
+    </div>
+    <div class="skills-block">
+      <h3>🎨 专业软件</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">After Effects</span>
+        <span class="skill-tag">Photoshop</span>
+        <span class="skill-tag">Animate</span>
+        <span class="skill-tag">Premiere Pro</span>
+        <span class="skill-tag">Illustrator</span>
+      </div>
+      <h3>🤖 AI 工具</h3>
+      <div class="skill-tags">
+        <span class="skill-tag ai-tool">可灵 AI</span>
+        <span class="skill-tag ai-tool">即梦</span>
+        <span class="skill-tag ai-tool">LiBTV</span>
+        <span class="skill-tag ai-tool">ChatGPT</span>
+        <span class="skill-tag ai-tool">Google Gemini</span>
+      </div>
+      <h3>✨ 专长领域</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">MG 动画制作</span>
+        <span class="skill-tag">后期合成</span>
+        <span class="skill-tag">AI 特效</span>
+        <span class="skill-tag">栏目包装</span>
+        <span class="skill-tag">二维动画</span>
+        <span class="skill-tag">换脸/替身</span>
+        <span class="skill-tag">口型修改</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Experience ===== -->
+<section id="experience">
+  <div class="section-header">
+    <div class="section-label">Experience</div>
+    <h2 class="section-title">工作经历</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="timeline">
+
+    <!-- 腾讯 -->
+    <div class="timeline-item">
+      <div class="timeline-dot">🤖</div>
+      <div class="timeline-body">
+        <div class="timeline-period">2025.9 — 至今</div>
+        <div class="timeline-company">腾讯北京（派遣）</div>
+        <div class="timeline-role">AI 素材设计师 · PCG 事业部 AI 产品组</div>
+        <p class="timeline-desc">
+          服务于腾讯视频即将上架的影视作品，通过 AI 技术实现服装样式替换、配音口型修改、
+          人物年龄编辑、替身换脸等后期特效。协助测试腾讯自研 AI 工具的功能与效果，并及时反馈问题。
+        </p>
+        <div class="projects-label">参与项目</div>
+        <div class="project-tags">
+          <span class="project-tag">《叵测》</span>
+          <span class="project-tag">《御赐小仵作2》</span>
+          <span class="project-tag">《梦花廷》</span>
+          <span class="project-tag">《盛世天下2》</span>
+          <span class="project-tag">《老舅》</span>
+          <span class="project-tag">《主角》</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 毛豆天空 -->
+    <div class="timeline-item">
+      <div class="timeline-dot">🎬</div>
+      <div class="timeline-body">
+        <div class="timeline-period">2021.5 — 2025.8</div>
+        <div class="timeline-company">北京毛豆天空文化创意有限公司</div>
+        <div class="timeline-role">二维动画师</div>
+        <p class="timeline-desc">
+          负责科普教育类 MG 动画制作、后期合成及 AI 特效制作。
+          深度参与头部教育品牌及知名纪录片、综艺节目的视觉呈现。
+        </p>
+        <div class="projects-label">参与项目</div>
+        <div class="project-tags">
+          <span class="project-tag">学而思教育动画</span>
+          <span class="project-tag">书声科技教育动画</span>
+          <span class="project-tag">《舌尖上的中国》</span>
+          <span class="project-tag">《我的艺术清单》</span>
+          <span class="project-tag">《这一站贵州》</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 河马珈珈 -->
+    <div class="timeline-item">
+      <div class="timeline-dot">📺</div>
+      <div class="timeline-body">
+        <div class="timeline-period">2020.5 — 2021.5</div>
+        <div class="timeline-company">河马珈珈（北京）文化传媒有限公司</div>
+        <div class="timeline-role">栏目包装设计师</div>
+        <p class="timeline-desc">
+          负责 CCTV-7 军事栏目的 MG 动画及后期包装制作，以及商业宣传片包装，
+          直接对接客户需求并完成从创意到落地的全流程制作。
+        </p>
+        <div class="projects-label">参与项目</div>
+        <div class="project-tags">
+          <span class="project-tag">《军事科技》</span>
+          <span class="project-tag">《讲武堂》</span>
+          <span class="project-tag">国家博物馆展览宣传片</span>
+          <span class="project-tag">《战集宁》</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== Works ===== -->
+<section id="works">
+  <div class="section-header">
+    <div class="section-label">Works</div>
+    <h2 class="section-title">作品集</h2>
+    <div class="divider"></div>
+    <p style="color:var(--muted);margin-top:14px;font-size:0.9rem;">
+      点击卡片可播放视频 · 将下方占位卡片替换为你的真实作品链接
+    </p>
+  </div>
+  <div class="works-grid">
+
+    <!--
+    ==========================================
+    【如何添加视频】
+
+    方案A：嵌入 B站/YouTube/Vimeo 视频
+    将下方 work-video-placeholder 整块替换为：
+    <iframe src="https://player.bilibili.com/player.html?bvid=YOUR_BVID"
+            allowfullscreen></iframe>
+
+    方案B：本地视频文件
+    将 work-video-placeholder 整块替换为：
+    <video controls>
+      <source src="videos/your-video.mp4" type="video/mp4">
+    </video>
+    ==========================================
+    -->
+
+    <!-- 作品 1 -->
+    <div class="work-card">
+      <div class="work-video">
+        <div class="work-video-placeholder">
+          <div class="play-icon">▶</div>
+          <span class="placeholder-hint">替换为你的视频链接</span>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-title">作品标题 1</div>
+        <div class="work-desc">在这里填写作品简介，描述这个项目的背景、你的职责和亮点。</div>
+        <span class="work-type">MG 动画</span>
+      </div>
+    </div>
+
+    <!-- 作品 2 -->
+    <div class="work-card">
+      <div class="work-video">
+        <div class="work-video-placeholder">
+          <div class="play-icon">▶</div>
+          <span class="placeholder-hint">替换为你的视频链接</span>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-title">作品标题 2</div>
+        <div class="work-desc">在这里填写作品简介，描述这个项目的背景、你的职责和亮点。</div>
+        <span class="work-type">栏目包装</span>
+      </div>
+    </div>
+
+    <!-- 作品 3 -->
+    <div class="work-card">
+      <div class="work-video">
+        <div class="work-video-placeholder">
+          <div class="play-icon">▶</div>
+          <span class="placeholder-hint">替换为你的视频链接</span>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-title">作品标题 3</div>
+        <div class="work-desc">在这里填写作品简介，描述这个项目的背景、你的职责和亮点。</div>
+        <span class="work-type">AI 特效</span>
+      </div>
+    </div>
+
+    <!-- 作品 4 -->
+    <div class="work-card">
+      <div class="work-video">
+        <div class="work-video-placeholder">
+          <div class="play-icon">▶</div>
+          <span class="placeholder-hint">替换为你的视频链接</span>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-title">作品标题 4</div>
+        <div class="work-desc">在这里填写作品简介，描述这个项目的背景、你的职责和亮点。</div>
+        <span class="work-type">二维动画</span>
+      </div>
+    </div>
+
+    <!-- 作品 5 -->
+    <div class="work-card">
+      <div class="work-video">
+        <div class="work-video-placeholder">
+          <div class="play-icon">▶</div>
+          <span class="placeholder-hint">替换为你的视频链接</span>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-title">作品标题 5</div>
+        <div class="work-desc">在这里填写作品简介，描述这个项目的背景、你的职责和亮点。</div>
+        <span class="work-type">后期合成</span>
+      </div>
+    </div>
+
+    <!-- 添加更多 -->
+    <div class="add-work-card" onclick="alert('在 index.html 中复制一个 work-card 块，填入你的视频链接即可！')">
+      <div class="plus">＋</div>
+      <span>添加更多作品</span>
+      <span style="font-size:0.75rem;color:var(--border)">复制 work-card 块并填入视频链接</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section id="contact">
+  <div class="section-header">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">联系我</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="contact-wrapper">
+    <p class="contact-desc">欢迎合作洽谈、项目咨询或任何创意交流，随时联系我！</p>
+    <div class="contact-cards">
+      <a class="contact-card" href="mailto:ttnlliulijun@163.com">
+        <span class="ci">📧</span>
+        <div class="cl">
+          <small>邮箱</small>
+          <strong>ttnlliulijun@163.com</strong>
+        </div>
+      </a>
+      <a class="contact-card" href="tel:18910493024">
+        <span class="ci">📞</span>
+        <div class="cl">
+          <small>电话</small>
+          <strong>189-1049-3024</strong>
+        </div>
+      </a>
+      <div class="contact-card">
+        <span class="ci">🏠</span>
+        <div class="cl">
+          <small>所在地</small>
+          <strong>北京 · 丰台区</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <p>© 2026 刘丽君 · 动画师作品集 &nbsp;|&nbsp; 用 ❤️ 制作</p>
+</footer>
+
+<script>
+  // Smooth reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.timeline-body, .work-card, .contact-card, .about-grid').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
