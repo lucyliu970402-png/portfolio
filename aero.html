@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>刘丽君 · 动画师作品集</title>
+<style>
+/* ===== Frutiger Aero / Y2K 蓝绿风格 ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sky1:#7fd8ff;
+  --sky2:#b8f0e8;
+  --aqua:#4fd1e0;
+  --aqua-deep:#0ea5b7;
+  --blue:#2f9fe0;
+  --glass:rgba(255,255,255,.42);
+  --glass2:rgba(255,255,255,.66);
+  --stroke:rgba(255,255,255,.75);
+  --ink:#0c4a5c;
+  --ink-soft:#2b7c8f;
+  --gold:#f5c451;
+  --xp-orange:#f8b451;
+  --xp-blue:#3a8fd8;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Tahoma,sans-serif;
+  color:var(--ink);
+  line-height:1.7;
+  overflow-x:hidden;
+  min-height:100vh;
+  /* Frutiger Aero 经典：蓝天 + 草地 */
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255,255,255,.85) 0%, transparent 42%),
+    radial-gradient(circle at 82% 22%, rgba(255,255,255,.55) 0%, transparent 38%),
+    linear-gradient(180deg,#8fe3ff 0%,#c9f4ee 42%,#a9ecd0 62%,#7fdcae 78%,#5ccb96 100%);
+  background-attachment:fixed;
+}
+/* 草地纹理 + 光晕 */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 105%, rgba(255,255,255,.5) 0%, transparent 60%),
+    radial-gradient(circle at 12% 88%, rgba(120,230,180,.55) 0%, transparent 22%),
+    radial-gradient(circle at 88% 92%, rgba(160,240,200,.5) 0%, transparent 20%);
+}
+/* 飘浮气泡 */
+.bubbles{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.bubble{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle at 30% 28%, rgba(255,255,255,.95) 0%, rgba(255,255,255,.35) 34%, rgba(160,230,255,.22) 60%, rgba(120,210,240,.05) 100%);
+  box-shadow:0 0 14px rgba(255,255,255,.6), inset 0 0 18px rgba(255,255,255,.5);
+  animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+  0%{transform:translateY(110vh) translateX(0) scale(.7);opacity:0}
+  12%{opacity:.85}
+  88%{opacity:.75}
+  100%{transform:translateY(-14vh) translateX(36px) scale(1.15);opacity:0}
+}
+/* ===== 玻璃拟态容器 ===== */
+.glass{
+  background:linear-gradient(180deg, rgba(255,255,255,.62) 0%, rgba(255,255,255,.34) 46%, rgba(190,240,250,.3) 100%);
+  border:1px solid var(--stroke);
+  border-radius:16px;
+  backdrop-filter:blur(9px) saturate(140%);
+  box-shadow:0 10px 34px rgba(12,80,102,.16), inset 0 1px 0 rgba(255,255,255,.95);
+}
+/* 高光条 */
+.gloss{position:relative;overflow:hidden}
+.gloss::after{
+  content:'';position:absolute;left:4%;right:4%;top:3px;height:38%;
+  background:linear-gradient(180deg, rgba(255,255,255,.85) 0%, rgba(255,255,255,.12) 100%);
+  border-radius:12px;pointer-events:none;
+}
+.wrap{position:relative;z-index:2;max-width:1140px;margin:0 auto;padding:0 4vw}
+
+/* ===== 顶部任务栏 ===== */
+.taskbar{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  height:52px;display:flex;align-items:center;gap:12px;padding:0 16px;
+  background:linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(190,235,250,.5) 52%, rgba(140,215,235,.44) 100%);
+  border-bottom:1px solid var(--stroke);
+  backdrop-filter:blur(12px) saturate(150%);
+  box-shadow:0 4px 18px rgba(12,80,102,.14);
+}
+.start-btn{
+  display:flex;align-items:center;gap:7px;padding:5px 15px;border-radius:9px;
+  background:linear-gradient(180deg,#7ee6a8 0%,#38bd77 52%,#1f9d5c 100%);
+  border:1px solid rgba(255,255,255,.8);
+  color:#fff;font-weight:700;font-size:.92rem;cursor:pointer;
+  box-shadow:0 2px 8px rgba(20,120,70,.35), inset 0 1px 0 rgba(255,255,255,.7);
+  text-shadow:0 1px 2px rgba(0,60,30,.35);
+}
+.start-btn:hover{filter:brightness(1.08)}
+.task-links{display:flex;gap:6px;flex-wrap:wrap}
+.task-links a{
+  padding:5px 13px;border-radius:14px;font-size:.82rem;color:var(--ink-soft);
+  border:1px solid rgba(255,255,255,.6);
+  background:rgba(255,255,255,.4);
+  text-decoration:none;transition:all .2s;white-space:nowrap;
+}
+.task-links a:hover{background:rgba(255,255,255,.8);color:var(--ink)}
+.clock{
+  margin-left:auto;font-size:.8rem;color:var(--ink-soft);
+  padding:5px 12px;border-radius:12px;
+  background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.6);
+}
+
+/* ===== Hero ===== */
+#hero{padding:120px 0 70px;text-align:center;position:relative}
+.hero-window{max-width:660px;margin:0 auto;padding:34px 30px 28px}
+.avatar{
+  width:104px;height:104px;margin:0 auto 16px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, #fff 0%, #bff0ff 40%, #5cc8e8 100%);
+  border:3px solid rgba(255,255,255,.9);
+  box-shadow:0 6px 20px rgba(12,90,120,.25), inset 0 2px 6px rgba(255,255,255,.9);
+  display:flex;align-items:center;justify-content:center;font-size:2.6rem;
+}
+.hero-name{
+  font-size:clamp(2.2rem,6vw,3.4rem);font-weight:800;letter-spacing:1px;
+  color:#0a4a63;
+  text-shadow:0 2px 0 rgba(255,255,255,.95), 0 4px 12px rgba(12,90,120,.2);
+}
+.hero-sub{color:var(--ink-soft);margin-top:6px;font-size:1rem;letter-spacing:1px}
+.hero-desc{margin:16px auto 22px;max-width:480px;color:#1a5f75;font-size:.93rem}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.aero-btn{
+  padding:10px 24px;border-radius:22px;font-weight:700;font-size:.88rem;cursor:pointer;
+  border:1px solid rgba(255,255,255,.9);text-decoration:none;display:inline-block;
+  background:linear-gradient(180deg,#8fe6ff 0%,#38b8e0 48%,#1590c4 100%);
+  color:#fff;text-shadow:0 1px 2px rgba(0,50,80,.4);
+  box-shadow:0 4px 14px rgba(20,130,180,.35), inset 0 1px 0 rgba(255,255,255,.85);
+  transition:all .2s;
+}
+.aero-btn:hover{transform:translateY(-2px);filter:brightness(1.07)}
+.aero-btn.alt{
+  background:linear-gradient(180deg,#fff 0%,#dff6fb 50%,#b8e8f2 100%);
+  color:var(--ink);text-shadow:none;
+  box-shadow:0 4px 14px rgba(20,130,180,.18), inset 0 1px 0 rgba(255,255,255,.95);
+}
+/* 窗口标题栏 */
+.win-bar{
+  display:flex;align-items:center;gap:8px;
+  margin:-34px -30px 18px;padding:8px 12px;
+  background:linear-gradient(180deg, rgba(255,255,255,.85) 0%, rgba(200,240,250,.6) 55%, rgba(150,220,240,.45) 100%);
+  border-bottom:1px solid rgba(255,255,255,.8);
+  border-radius:16px 16px 0 0;
+}
+.win-dots{display:flex;gap:5px}
+.win-dots i{width:11px;height:11px;border-radius:50%;display:block;box-shadow:inset 0 1px 1px rgba(255,255,255,.8)}
+.win-dots i:nth-child(1){background:linear-gradient(180deg,#ffd36e,#f0a32e)}
+.win-dots i:nth-child(2){background:linear-gradient(180deg,#b6f0a8,#5cc86a)}
+.win-dots i:nth-child(3){background:linear-gradient(180deg,#ffb3b3,#f06a6a)}
+.win-title{font-size:.8rem;color:var(--ink-soft);font-weight:600}
+
+/* ===== 区块标题 ===== */
+.sec{padding:56px 0}
+.sec-head{text-align:center;margin-bottom:26px}
+.sec-label{
+  display:inline-block;font-size:.72rem;letter-spacing:4px;text-transform:uppercase;
+  color:#0e7f9c;font-weight:700;
+}
+.sec-title{
+  font-size:clamp(1.5rem,3.6vw,2.1rem);font-weight:800;color:#0a4a63;margin-top:4px;
+  text-shadow:0 1px 0 rgba(255,255,255,.9);
+}
+.sec-div{width:60px;height:3px;margin:12px auto 0;border-radius:2px;
+  background:linear-gradient(90deg,var(--aqua),var(--blue));
+  box-shadow:0 0 8px rgba(80,200,225,.6)}
+
+/* ===== XP 文件夹桌面导航 ===== */
+.folder-desk{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));
+  gap:16px;padding:24px;max-width:820px;margin:0 auto;
+}
+.folder{
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  cursor:pointer;padding:10px 6px;border-radius:11px;transition:all .18s;
+  border:1px solid transparent;
+}
+.folder:hover{background:rgba(255,255,255,.5);border-color:rgba(255,255,255,.8);transform:translateY(-2px)}
+.folder.active{background:rgba(255,255,255,.72);border-color:var(--aqua);box-shadow:0 0 0 2px rgba(79,209,224,.35)}
+/* XP 文件夹图形（纯 CSS） */
+.folder-ico{width:58px;height:46px;position:relative;flex-shrink:0}
+.folder-ico .tab{
+  position:absolute;top:0;left:0;width:24px;height:9px;border-radius:5px 5px 0 0;
+  background:linear-gradient(180deg,#ffd98a 0%,#e8a83c 100%);
+}
+.folder-ico .body{
+  position:absolute;top:7px;left:0;right:0;height:33px;border-radius:0 6px 6px 6px;
+  background:linear-gradient(180deg,#ffcf6b 0%,#f0a32e 48%,#d98a1c 100%);
+  border:1px solid rgba(160,100,10,.5);
+  box-shadow:0 2px 6px rgba(120,80,10,.32), inset 0 1px 0 rgba(255,255,255,.65);
+}
+.folder-ico .body::after{
+  content:'';position:absolute;inset:3px 4px auto 4px;height:11px;border-radius:4px;
+  background:linear-gradient(180deg,rgba(255,255,255,.6) 0%,rgba(255,255,255,.12) 100%);
+}
+.folder-name{
+  font-size:.78rem;color:var(--ink);font-weight:600;text-align:center;
+  text-shadow:0 1px 2px rgba(255,255,255,.9);
+}
+
+/* ===== 作品区 ===== */
+.cat{margin-bottom:34px}
+.cat.hidden{display:none}
+.cat-title{
+  display:flex;align-items:center;gap:9px;margin-bottom:14px;
+  padding:9px 16px;border-radius:12px;
+  background:linear-gradient(180deg, rgba(255,255,255,.68) 0%, rgba(200,240,250,.45) 100%);
+  border:1px solid var(--stroke);
+  backdrop-filter:blur(6px);
+  box-shadow:0 3px 12px rgba(12,80,102,.1);
+}
+.cat-title b{font-size:.98rem;color:#0a4a63}
+.cat-title .cnt{
+  margin-left:auto;font-size:.74rem;color:var(--ink-soft);
+  background:rgba(255,255,255,.7);padding:2px 10px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.8);
+}
+.works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
+.work-card{
+  border-radius:14px;overflow:hidden;transition:all .24s;
+  background:linear-gradient(180deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,.36) 50%, rgba(200,240,250,.34) 100%);
+  border:1px solid var(--stroke);
+  backdrop-filter:blur(8px) saturate(130%);
+  box-shadow:0 8px 26px rgba(12,80,102,.14), inset 0 1px 0 rgba(255,255,255,.9);
+}
+.work-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(12,80,102,.22)}
+.work-video{position:relative;padding-top:56.25%;background:#0c3a4a}
+.work-video iframe,.work-video video{
+  position:absolute;inset:0;width:100%;height:100%;border:none;object-fit:cover;
+}
+.work-info{padding:13px 16px}
+.work-title{font-size:.95rem;font-weight:700;color:#0a4a63}
+.work-type{
+  display:inline-block;margin-top:7px;font-size:.7rem;letter-spacing:.5px;
+  padding:3px 11px;border-radius:11px;color:#0a5f78;
+  background:linear-gradient(180deg,rgba(255,255,255,.85) 0%,rgba(190,240,250,.6) 100%);
+  border:1px solid rgba(255,255,255,.9);
+}
+
+/* ===== 我的简历窗口 ===== */
+.resume-win{max-width:920px;margin:0 auto;padding:0 0 26px}
+.resume-body{padding:24px 26px}
+.resume-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media(max-width:760px){.resume-grid{grid-template-columns:1fr}}
+.resume-box h4{
+  font-size:.92rem;color:#0e7f9c;margin-bottom:9px;
+  display:flex;align-items:center;gap:6px;
+}
+.info-list{list-style:none}
+.info-list li{
+  display:flex;gap:8px;padding:7px 0;font-size:.86rem;color:#1a5f75;
+  border-bottom:1px dashed rgba(255,255,255,.75);
+}
+.info-list li:last-child{border-bottom:none}
+.info-list strong{color:#0a4a63}
+.tag-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.tag{
+  font-size:.78rem;padding:5px 13px;border-radius:14px;color:#0a5f78;
+  background:linear-gradient(180deg,rgba(255,255,255,.85) 0%,rgba(200,242,250,.6) 100%);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 2px 6px rgba(12,90,120,.1);
+}
+.tag.gold{
+  color:#7a5a10;
+  background:linear-gradient(180deg,#fff3cf 0%,#ffe09a 100%);
+  border-color:rgba(220,180,80,.6);
+}
+/* 时间线 */
+.tl{list-style:none;position:relative;padding-left:22px}
+.tl::before{
+  content:'';position:absolute;left:6px;top:6px;bottom:6px;width:3px;border-radius:2px;
+  background:linear-gradient(180deg,var(--aqua),var(--blue),rgba(79,209,224,.1));
+}
+.tl li{position:relative;margin-bottom:18px;padding-left:6px}
+.tl li::before{
+  content:'';position:absolute;left:-22px;top:5px;width:13px;height:13px;border-radius:50%;
+  background:radial-gradient(circle at 32% 30%,#fff 0%,#8fe3ff 45%,#2f9fe0 100%);
+  border:2px solid rgba(255,255,255,.95);
+  box-shadow:0 2px 6px rgba(12,90,120,.28);
+}
+.tl-period{font-size:.74rem;color:#0e7f9c;font-weight:700;letter-spacing:.5px}
+.tl-comp{font-size:.94rem;font-weight:700;color:#0a4a63}
+.tl-role{font-size:.81rem;color:var(--ink-soft);margin-bottom:5px}
+.tl-desc{font-size:.83rem;color:#1a5f75;line-height:1.75}
+.ptags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.ptag{
+  font-size:.72rem;padding:2px 9px;border-radius:9px;color:#145e72;
+  background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);
+}
+
+/* ===== 联系卡片 ===== */
+.contact-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;padding:6px 0}
+.contact-card{
+  display:flex;align-items:center;gap:12px;padding:15px 24px;border-radius:13px;
+  text-decoration:none;color:inherit;transition:all .2s;min-width:210px;
+  background:linear-gradient(180deg,rgba(255,255,255,.7) 0%,rgba(205,242,250,.45) 100%);
+  border:1px solid var(--stroke);
+  box-shadow:0 4px 14px rgba(12,80,102,.12), inset 0 1px 0 rgba(255,255,255,.9);
+}
+.contact-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(12,80,102,.2)}
+.contact-card .ci{font-size:1.5rem}
+.contact-card small{display:block;font-size:.73rem;color:var(--ink-soft)}
+.contact-card strong{font-size:.88rem;color:#0a4a63}
+
+/* ===== 页脚 ===== */
+footer{
+  text-align:center;padding:26px 4vw;margin-top:20px;
+  font-size:.8rem;color:#0e5f75;
+  background:linear-gradient(180deg,rgba(255,255,255,.35) 0%,rgba(190,235,245,.4) 100%);
+  border-top:1px solid var(--stroke);
+}
+@media(max-width:640px){
+  .task-links{display:none}
+  .folder-desk{grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- 飘浮气泡 -->
+<div class="bubbles" id="bubbles"></div>
+
+<!-- ===== 顶部任务栏 ===== -->
+<div class="taskbar">
+  <div class="start-btn" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">❖ 刘丽君</div>
+  <div class="task-links">
+    <a href="#resume">我的简历</a>
+    <a href="#works">作品集</a>
+    <a href="#contact">联系我</a>
+  </div>
+  <div class="clock" id="clock"></div>
+</div>
+
+<!-- ===== Hero ===== -->
+<section id="hero">
+  <div class="wrap">
+    <div class="glass gloss hero-window">
+      <div class="win-bar">
+        <div class="win-dots"><i></i><i></i><i></i></div>
+        <div class="win-title">Animator Portfolio.exe</div>
+      </div>
+      <div class="avatar">🎬</div>
+      <h1 class="hero-name">刘丽君</h1>
+      <p class="hero-sub">AI 动画设计 · 二维动画师 · 后期包装</p>
+      <p class="hero-desc">
+        5年+ 动画与后期经验，服务于 CCTV、腾讯视频、学而思等头部客户。<br/>
+        深耕 MG 动画、后期合成与 AI 特效领域，探索 AI 技术在影视制作中的边界。
+      </p>
+      <div class="hero-btns">
+        <a href="#works" class="aero-btn">▶ 查看作品集</a>
+        <a href="#resume" class="aero-btn alt">📁 我的简历</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 作品集 ===== -->
+<section id="works" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label">Works</div>
+      <h2 class="sec-title">作品集</h2>
+      <div class="sec-div"></div>
+    </div>
+
+    <!-- XP 文件夹导航 -->
+    <div class="glass gloss folder-desk">
+      <div class="folder active" data-filter="all">
+        <div class="folder-ico"><div class="tab"></div><div class="body"></div></div>
+        <div class="folder-name">全部作品</div>
+      </div>
+      <div class="folder" data-filter="showreel">
+        <div class="folder-ico"><div class="tab"></div><div class="body"></div></div>
+        <div class="folder-name">作品总集</div>
+      </div>
+      <div class="folder" data-filter="mg">
+        <div class="folder-ico"><div class="tab"></div><div class="body"></div></div>
+        <div class="folder-name">MG动画</div>
+      </div>
+      <div class="folder" data-filter="packaging">
+        <div class="folder-ico"><div class="tab"></div><div class="body"></div></div>
+        <div class="folder-name">栏目包装</div>
+      </div>
+      <div class="folder" data-filter="ai-fx">
+        <div class="folder-ico"><div class="tab"></div><div class="body"></div></div>
+        <div class="folder-name">AI特效</div>
+      </div>
+      <div class="folder" data-filter="post">
+        <div class="folder-ico"><div class="tab"></div><div class="body"></div></div>
+        <div class="folder-name">后期合成</div>
+      </div>
+      <div class="folder" data-filter="ai-short">
+        <div class="folder-ico"><div class="tab"></div><div class="body"></div></div>
+        <div class="folder-name">AI短片</div>
+      </div>
+      <div class="folder" data-filter="ai-demo">
+        <div class="folder-ico"><div class="tab"></div><div class="body"></div></div>
+        <div class="folder-name">AI产品演示</div>
+      </div>
+    </div>
+
+    <!-- ★ 作品总集 -->
+    <div class="cat" data-category="showreel">
+      <div class="cat-title"><span>🎥</span><b>作品总集</b><span class="cnt">2 个作品</span></div>
+      <div class="works-grid">
+        <div class="work-card">
+          <div class="work-video">
+            <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=653070270&bvid=BV19Y4y1C7io&cid=1041253237&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+          </div>
+          <div class="work-info"><div class="work-title">作品总集 Vol.1</div><span class="work-type">作品总集</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video">
+            <video controls><source src="videos/作品集2025_x264.mp4" type="video/mp4"></video>
+          </div>
+          <div class="work-info"><div class="work-title">作品总集 Vol.2</div><span class="work-type">作品总集</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ① MG 动画 -->
+    <div class="cat" data-category="mg">
+      <div class="cat-title"><span>🎞</span><b>MG 动画</b><span class="cnt">4 个作品</span></div>
+      <div class="works-grid">
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/九鼎无双投放组2D面试视频——刘丽君.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">游戏投放病毒短视频</div><span class="work-type">MG 动画</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/绿程优品0208_batch.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">绿程优品宣传动画</div><span class="work-type">MG 动画</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/罗兰西尼动画1.0_batch.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">罗兰西尼宣传动画</div><span class="work-type">MG 动画</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/抖音短视频.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">抖音短视频科普动画</div><span class="work-type">MG 动画</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② 栏目包装 -->
+    <div class="cat" data-category="packaging">
+      <div class="cat-title"><span>📺</span><b>栏目包装</b><span class="cnt">4 个作品</span></div>
+      <div class="works-grid">
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/sc004-03.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">舌尖4文字包装</div><span class="work-type">栏目包装</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/丘成桐_batch.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">《我的艺术清单》包装</div><span class="work-type">栏目包装</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/腾讯地图露营_batch.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">腾讯地图活动包装</div><span class="work-type">栏目包装</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><iframe src="//player.bilibili.com/player.html?isOutside=true&aid=117562801134547&bvid=BV1y8446DEW5&cid=43348201190&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
+          <div class="work-info"><div class="work-title">腾讯数字孪生包装动画</div><span class="work-type">栏目包装</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ AI 特效 -->
+    <div class="cat" data-category="ai-fx">
+      <div class="cat-title"><span>✨</span><b>AI 特效</b><span class="cnt">3 个作品</span></div>
+      <div class="works-grid">
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/AI特效动物.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">AI替换动物</div><span class="work-type">AI 特效</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/AI美容换衣服.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">AI美颜+换衣服</div><span class="work-type">AI 特效</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/AI换衣服.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">AI特效</div><span class="work-type">AI 特效</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ 后期合成 -->
+    <div class="cat" data-category="post">
+      <div class="cat-title"><span>🎬</span><b>后期合成</b><span class="cnt">3 个作品</span></div>
+      <div class="works-grid">
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/国际儿歌 1224_x264.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">国际儿歌</div><span class="work-type">后期合成</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><iframe src="//player.bilibili.com/player.html?isOutside=true&aid=117562818039820&bvid=BV1pv446EEB2&cid=43348265287&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
+          <div class="work-info"><div class="work-title">书声教育英语实拍+动画</div><span class="work-type">后期合成</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><iframe src="//player.bilibili.com/player.html?isOutside=true&aid=117562801133041&bvid=BV1y8446DEYz&cid=43348264433&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
+          <div class="work-info"><div class="work-title">书声教育英语实拍+动画</div><span class="work-type">后期合成</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑤ AI 短片 -->
+    <div class="cat" data-category="ai-short">
+      <div class="cat-title"><span>🤖</span><b>AI 短片</b><span class="cnt">2 个作品</span></div>
+      <div class="works-grid">
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/AI短片1.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">自制AI 短片1</div><span class="work-type">AI 短片</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/AI短片2.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">自制AI 短片2</div><span class="work-type">AI 短片</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑥ AI 产品演示 -->
+    <div class="cat" data-category="ai-demo">
+      <div class="cat-title"><span>🚀</span><b>AI 产品演示</b><span class="cnt">2 个作品</span></div>
+      <div class="works-grid">
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/ZenStudio AI 影视后期改3_batch.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">ZenStudio AI 影视后期宣传</div><span class="work-type">AI 产品演示</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-video"><video controls><source src="videos/rally 宣传限时优惠_batch.mp4" type="video/mp4"></video></div>
+          <div class="work-info"><div class="work-title">Work rally 宣传</div><span class="work-type">AI 产品演示</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== 我的简历 ===== -->
+<section id="resume" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label">My Resume</div>
+      <h2 class="sec-title">我的简历</h2>
+      <div class="sec-div"></div>
+    </div>
+    <div class="glass gloss resume-win">
+      <div class="win-bar">
+        <div class="win-dots"><i></i><i></i><i></i></div>
+        <div class="win-title">📁 我的简历</div>
+      </div>
+      <div class="resume-body">
+        <div class="resume-grid">
+
+          <div class="resume-box">
+            <h4>👤 基本信息</h4>
+            <ul class="info-list">
+              <li><span>🎂</span><span>出生年份 <strong>1997 年 4 月</strong></span></li>
+              <li><span>🏠</span><span>所在地 <strong>北京市 · 丰台区</strong></span></li>
+              <li><span>🎓</span><span>学历 <strong>大专 · 北京航空航天大学</strong></span></li>
+              <li><span>💼</span><span>意向 <strong>AI 动画设计 / 二维动画师 / 后期包装</strong></span></li>
+            </ul>
+            <h4 style="margin-top:18px">🎨 专业软件</h4>
+            <div class="tag-row">
+              <span class="tag">After Effects</span>
+              <span class="tag">Photoshop</span>
+              <span class="tag">Animate</span>
+              <span class="tag">Premiere Pro</span>
+              <span class="tag">Illustrator</span>
+            </div>
+            <h4>🤖 AI 工具</h4>
+            <div class="tag-row">
+              <span class="tag gold">可灵 AI</span>
+              <span class="tag gold">即梦</span>
+              <span class="tag gold">LiBTV</span>
+              <span class="tag gold">ChatGPT</span>
+              <span class="tag gold">Google Gemini</span>
+            </div>
+            <h4>✨ 专长领域</h4>
+            <div class="tag-row">
+              <span class="tag">MG 动画制作</span>
+              <span class="tag">后期合成</span>
+              <span class="tag">AI 特效</span>
+              <span class="tag">栏目包装</span>
+              <span class="tag">二维动画</span>
+              <span class="tag">换脸/替身</span>
+              <span class="tag">口型修改</span>
+            </div>
+          </div>
+
+          <div class="resume-box">
+            <h4>💼 工作经历</h4>
+            <ul class="tl">
+              <li>
+                <div class="tl-period">2025.9 — 至今</div>
+                <div class="tl-comp">腾讯北京（派遣）</div>
+                <div class="tl-role">AI 素材设计师 · PCG 事业部 AI 产品组</div>
+                <p class="tl-desc">服务于腾讯视频即将上架的影视作品，通过 AI 技术实现服装样式替换、配音口型修改、人物年龄编辑、替身换脸等后期特效。协助测试腾讯自研 AI 工具的功能与效果。</p>
+                <div class="ptags">
+                  <span class="ptag">《叵测》</span><span class="ptag">《御赐小仵作2》</span>
+                  <span class="ptag">《梦花廷》</span><span class="ptag">《盛世天下2》</span>
+                  <span class="ptag">《老舅》</span><span class="ptag">《主角》</span>
+                </div>
+              </li>
+              <li>
+                <div class="tl-period">2021.5 — 2025.8</div>
+                <div class="tl-comp">北京毛豆天空文化创意有限公司</div>
+                <div class="tl-role">二维动画师</div>
+                <p class="tl-desc">负责科普教育类 MG 动画制作、后期合成及 AI 特效制作。深度参与头部教育品牌及知名纪录片、综艺节目的视觉呈现。</p>
+                <div class="ptags">
+                  <span class="ptag">学而思教育动画</span><span class="ptag">书声科技教育动画</span>
+                  <span class="ptag">《舌尖上的中国》</span><span class="ptag">《我的艺术清单》</span>
+                  <span class="ptag">《这一站贵州》</span>
+                </div>
+              </li>
+              <li>
+                <div class="tl-period">2020.5 — 2021.5</div>
+                <div class="tl-comp">河马珈珈（北京）文化传媒有限公司</div>
+                <div class="tl-role">栏目包装设计师</div>
+                <p class="tl-desc">负责 CCTV-7 军事栏目的 MG 动画及后期包装制作，以及商业宣传片包装，直接对接客户需求并完成从创意到落地的全流程制作。</p>
+                <div class="ptags">
+                  <span class="ptag">《军事科技》</span><span class="ptag">《讲武堂》</span>
+                  <span class="ptag">国家博物馆展览宣传片</span><span class="ptag">《战集宁》</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 联系我 ===== -->
+<section id="contact" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label">Contact</div>
+      <h2 class="sec-title">联系我</h2>
+      <div class="sec-div"></div>
+    </div>
+    <div class="contact-row">
+      <a class="contact-card" href="mailto:ttnlliulijun@163.com">
+        <span class="ci">📧</span>
+        <div><small>邮箱</small><strong>ttnlliulijun@163.com</strong></div>
+      </a>
+      <a class="contact-card" href="tel:18910493024">
+        <span class="ci">📞</span>
+        <div><small>电话</small><strong>189-1049-3024</strong></div>
+      </a>
+      <div class="contact-card">
+        <span class="ci">🏠</span>
+        <div><small>所在地</small><strong>北京 · 丰台区</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 刘丽君 · 动画师作品集 &nbsp;|&nbsp; Frutiger Aero Edition</p>
+</footer>
+
+<script>
+// 气泡
+(function(){
+  const box=document.getElementById('bubbles');
+  for(let i=0;i<16;i++){
+    const b=document.createElement('div');
+    b.className='bubble';
+    const s=8+Math.random()*34;
+    b.style.width=s+'px';b.style.height=s+'px';
+    b.style.left=(Math.random()*100)+'%';
+    b.style.animationDuration=(13+Math.random()*16)+'s';
+    b.style.animationDelay=(-Math.random()*22)+'s';
+    box.appendChild(b);
+  }
+})();
+
+// 时钟
+function tick(){
+  const d=new Date();
+  const p=n=>String(n).padStart(2,'0');
+  document.getElementById('clock').textContent=
+    d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+tick();setInterval(tick,30000);
+
+// 文件夹分类筛选
+const folders=document.querySelectorAll('.folder');
+const cats=document.querySelectorAll('.cat');
+folders.forEach(f=>{
+  f.addEventListener('click',()=>{
+    folders.forEach(x=>x.classList.remove('active'));
+    f.classList.add('active');
+    const filter=f.dataset.filter;
+    cats.forEach(c=>{
+      if(filter==='all'||c.dataset.category===filter){c.classList.remove('hidden')}
+      else{c.classList.add('hidden')}
+    });
+  });
+});
+</script>
+</body>
+</html>
