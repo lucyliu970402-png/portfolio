@@ -231,10 +231,44 @@
 
     /* ===== Works ===== */
     #works { background: var(--bg2); }
+
+    /* 分类筛选栏 */
+    .filter-bar {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      justify-content: center; margin-bottom: 48px;
+    }
+    .filter-btn {
+      padding: 8px 20px; border-radius: 30px;
+      font-size: 0.85rem; font-weight: 500;
+      cursor: pointer; transition: all .2s;
+      border: 1px solid var(--border);
+      background: transparent; color: var(--muted);
+    }
+    .filter-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent; color: #fff;
+      box-shadow: 0 4px 16px rgba(124,92,252,0.3);
+    }
+
+    /* 分类区块 */
+    .works-category { margin-bottom: 60px; max-width: 1100px; margin-left: auto; margin-right: auto; }
+    .works-category.hidden { display: none; }
+    .category-title {
+      font-size: 1rem; font-weight: 600;
+      color: var(--accent2); letter-spacing: 2px;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .category-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--border);
+    }
+
     .works-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px; max-width: 1100px; margin: 0 auto;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 22px;
     }
     .work-card {
       background: var(--bg3);
@@ -252,9 +286,11 @@
       position: relative; padding-top: 56.25%;
       background: #0a0a12;
     }
-    .work-video iframe {
+    .work-video iframe,
+    .work-video video {
       position: absolute; inset: 0;
       width: 100%; height: 100%; border: none;
+      object-fit: cover;
     }
     .work-video-placeholder {
       position: absolute; inset: 0;
@@ -289,21 +325,6 @@
       padding: 3px 10px; border-radius: 10px;
       margin-top: 8px;
     }
-
-    /* Add Video Button */
-    .add-work-card {
-      background: var(--bg3);
-      border: 2px dashed var(--border);
-      border-radius: var(--radius);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 12px; min-height: 240px;
-      cursor: pointer; transition: all .2s;
-      color: var(--muted);
-    }
-    .add-work-card:hover { border-color: var(--accent); color: var(--accent2); }
-    .add-work-card .plus { font-size: 2rem; }
-    .add-work-card span { font-size: 0.85rem; }
 
     /* ===== Contact ===== */
     #contact { background: var(--bg); }
@@ -529,111 +550,201 @@
     <h2 class="section-title">作品集</h2>
     <div class="divider"></div>
     <p style="color:var(--muted);margin-top:14px;font-size:0.9rem;">
-      点击卡片可播放视频 · 将下方占位卡片替换为你的真实作品链接
+      点击分类筛选 · B站嵌入代码替换占位块即可添加视频
     </p>
   </div>
-  <div class="works-grid">
 
-    <!--
-    ==========================================
-    【如何添加视频】
-
-    方案A：嵌入 B站/YouTube/Vimeo 视频
-    将下方 work-video-placeholder 整块替换为：
-    <iframe src="https://player.bilibili.com/player.html?bvid=YOUR_BVID"
-            allowfullscreen></iframe>
-
-    方案B：本地视频文件
-    将 work-video-placeholder 整块替换为：
-    <video controls>
-      <source src="videos/your-video.mp4" type="video/mp4">
-    </video>
-    ==========================================
-    -->
-
-    <!-- 作品 1 -->
-    <div class="work-card">
-      <div class="work-video">
-        <div class="work-video-placeholder">
-          <div class="play-icon">▶</div>
-          <span class="placeholder-hint">替换为你的视频链接</span>
-        </div>
-      </div>
-      <div class="work-info">
-        <div class="work-title">作品标题 1</div>
-        <div class="work-desc">在这里填写作品简介，描述这个项目的背景、你的职责和亮点。</div>
-        <span class="work-type">MG 动画</span>
-      </div>
-    </div>
-
-    <!-- 作品 2 -->
-    <div class="work-card">
-      <div class="work-video">
-        <div class="work-video-placeholder">
-          <div class="play-icon">▶</div>
-          <span class="placeholder-hint">替换为你的视频链接</span>
-        </div>
-      </div>
-      <div class="work-info">
-        <div class="work-title">作品标题 2</div>
-        <div class="work-desc">在这里填写作品简介，描述这个项目的背景、你的职责和亮点。</div>
-        <span class="work-type">栏目包装</span>
-      </div>
-    </div>
-
-    <!-- 作品 3 -->
-    <div class="work-card">
-      <div class="work-video">
-        <div class="work-video-placeholder">
-          <div class="play-icon">▶</div>
-          <span class="placeholder-hint">替换为你的视频链接</span>
-        </div>
-      </div>
-      <div class="work-info">
-        <div class="work-title">作品标题 3</div>
-        <div class="work-desc">在这里填写作品简介，描述这个项目的背景、你的职责和亮点。</div>
-        <span class="work-type">AI 特效</span>
-      </div>
-    </div>
-
-    <!-- 作品 4 -->
-    <div class="work-card">
-      <div class="work-video">
-        <div class="work-video-placeholder">
-          <div class="play-icon">▶</div>
-          <span class="placeholder-hint">替换为你的视频链接</span>
-        </div>
-      </div>
-      <div class="work-info">
-        <div class="work-title">作品标题 4</div>
-        <div class="work-desc">在这里填写作品简介，描述这个项目的背景、你的职责和亮点。</div>
-        <span class="work-type">二维动画</span>
-      </div>
-    </div>
-
-    <!-- 作品 5 -->
-    <div class="work-card">
-      <div class="work-video">
-        <div class="work-video-placeholder">
-          <div class="play-icon">▶</div>
-          <span class="placeholder-hint">替换为你的视频链接</span>
-        </div>
-      </div>
-      <div class="work-info">
-        <div class="work-title">作品标题 5</div>
-        <div class="work-desc">在这里填写作品简介，描述这个项目的背景、你的职责和亮点。</div>
-        <span class="work-type">后期合成</span>
-      </div>
-    </div>
-
-    <!-- 添加更多 -->
-    <div class="add-work-card" onclick="alert('在 index.html 中复制一个 work-card 块，填入你的视频链接即可！')">
-      <div class="plus">＋</div>
-      <span>添加更多作品</span>
-      <span style="font-size:0.75rem;color:var(--border)">复制 work-card 块并填入视频链接</span>
-    </div>
-
+  <!-- 分类筛选按钮 -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">全部</button>
+    <button class="filter-btn" data-filter="showreel">作品总集</button>
+    <button class="filter-btn" data-filter="mg">MG 动画</button>
+    <button class="filter-btn" data-filter="packaging">栏目包装</button>
+    <button class="filter-btn" data-filter="ai-fx">AI 特效</button>
+    <button class="filter-btn" data-filter="2d">二维动画</button>
+    <button class="filter-btn" data-filter="post">后期合成</button>
+    <button class="filter-btn" data-filter="ai-short">AI 短片</button>
+    <button class="filter-btn" data-filter="ai-demo">AI 产品演示</button>
   </div>
+
+  <!--
+  =====================================================
+  【添加视频说明】
+  找到对应分类区块，复制一个 work-card，
+  将 work-video-placeholder 整块替换为 B站嵌入代码：
+
+  <iframe src="//player.bilibili.com/player.html?bvid=BV你的号&high_quality=1"
+          scrolling="no" frameborder="no" allowfullscreen="true"
+          style="position:absolute;inset:0;width:100%;height:100%"></iframe>
+
+  或本地视频：
+  <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <source src="videos/xxx.mp4" type="video/mp4">
+  </video>
+  =====================================================
+  -->
+
+  <!-- ★ 作品总集 -->
+  <div class="works-category" data-category="showreel">
+    <div class="category-title">🎥 作品总集</div>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-video">
+          <div class="work-video-placeholder">
+            <div class="play-icon">▶</div>
+            <span class="placeholder-hint">粘贴 B站嵌入代码</span>
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-title">作品总集 Showreel</div>
+          <div class="work-desc">填写总集简介，如：汇集历年代表作品，涵盖 MG 动画、AI 特效、栏目包装等多个领域。</div>
+          <span class="work-type">作品总集</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ① MG 动画 -->
+  <div class="works-category" data-category="mg">
+    <div class="category-title">🎞 MG 动画</div>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-video">
+          <div class="work-video-placeholder">
+            <div class="play-icon">▶</div>
+            <span class="placeholder-hint">粘贴 B站嵌入代码</span>
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-title">作品标题</div>
+          <div class="work-desc">填写作品简介</div>
+          <span class="work-type">MG 动画</span>
+        </div>
+      </div>
+      <!-- 继续复制 work-card 添加更多 -->
+    </div>
+  </div>
+
+  <!-- ② 栏目包装 -->
+  <div class="works-category" data-category="packaging">
+    <div class="category-title">📺 栏目包装</div>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-video">
+          <div class="work-video-placeholder">
+            <div class="play-icon">▶</div>
+            <span class="placeholder-hint">粘贴 B站嵌入代码</span>
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-title">作品标题</div>
+          <div class="work-desc">填写作品简介</div>
+          <span class="work-type">栏目包装</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ AI 特效 -->
+  <div class="works-category" data-category="ai-fx">
+    <div class="category-title">✨ AI 特效</div>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-video">
+          <div class="work-video-placeholder">
+            <div class="play-icon">▶</div>
+            <span class="placeholder-hint">粘贴 B站嵌入代码</span>
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-title">作品标题</div>
+          <div class="work-desc">填写作品简介</div>
+          <span class="work-type">AI 特效</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 二维动画 -->
+  <div class="works-category" data-category="2d">
+    <div class="category-title">🎨 二维动画</div>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-video">
+          <div class="work-video-placeholder">
+            <div class="play-icon">▶</div>
+            <span class="placeholder-hint">粘贴 B站嵌入代码</span>
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-title">作品标题</div>
+          <div class="work-desc">填写作品简介</div>
+          <span class="work-type">二维动画</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ 后期合成 -->
+  <div class="works-category" data-category="post">
+    <div class="category-title">🎬 后期合成</div>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-video">
+          <div class="work-video-placeholder">
+            <div class="play-icon">▶</div>
+            <span class="placeholder-hint">粘贴 B站嵌入代码</span>
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-title">作品标题</div>
+          <div class="work-desc">填写作品简介</div>
+          <span class="work-type">后期合成</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑥ AI 短片 -->
+  <div class="works-category" data-category="ai-short">
+    <div class="category-title">🤖 AI 短片</div>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-video">
+          <div class="work-video-placeholder">
+            <div class="play-icon">▶</div>
+            <span class="placeholder-hint">粘贴 B站嵌入代码</span>
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-title">作品标题</div>
+          <div class="work-desc">填写作品简介</div>
+          <span class="work-type">AI 短片</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑦ AI 产品演示 -->
+  <div class="works-category" data-category="ai-demo">
+    <div class="category-title">🚀 AI 产品演示</div>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-video">
+          <div class="work-video-placeholder">
+            <div class="play-icon">▶</div>
+            <span class="placeholder-hint">粘贴 B站嵌入代码</span>
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-title">作品标题</div>
+          <div class="work-desc">填写作品简介</div>
+          <span class="work-type">AI 产品演示</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- ===== Contact ===== -->
@@ -644,6 +755,7 @@
     <div class="divider"></div>
   </div>
   <div class="contact-wrapper">
+    <p class="contact-desc"></p>
     <div class="contact-cards">
       <a class="contact-card" href="mailto:ttnlliulijun@163.com">
         <span class="ci">📧</span>
@@ -672,10 +784,29 @@
 
 <!-- ===== Footer ===== -->
 <footer>
-  <p>© 2026 刘丽君 · 动画师作品集 &nbsp;&nbsp;</p>
+  <p>© 2026 刘丽君 · 动画师作品集 &nbsp;</p>
 </footer>
 
 <script>
+  // 分类筛选
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const categories = document.querySelectorAll('.works-category');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      categories.forEach(cat => {
+        if (filter === 'all' || cat.dataset.category === filter) {
+          cat.classList.remove('hidden');
+        } else {
+          cat.classList.add('hidden');
+        }
+      });
+    });
+  });
+
   // Smooth reveal on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
