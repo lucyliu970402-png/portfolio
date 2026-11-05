@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d0d12" />
+  <link rel="dns-prefetch" href="//player.bilibili.com" />
+  <link rel="preconnect" href="https://player.bilibili.com" crossorigin />
   <title>刘丽君 · 动画师作品集</title>
   <style>
     /* ===== Reset & Base ===== */
@@ -74,7 +77,7 @@
         radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,92,252,0.18) 0%, transparent 70%),
         radial-gradient(ellipse 40% 40% at 80% 80%, rgba(180,138,255,0.1) 0%, transparent 60%);
     }
-    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    .hero-content { position: relative; z-index: 1; width: 100%; max-width: 700px; }
     .hero-tag {
       display: inline-block;
       background: rgba(124,92,252,0.15);
@@ -290,29 +293,60 @@
     .work-video video {
       position: absolute; inset: 0;
       width: 100%; height: 100%; border: none;
-      object-fit: cover;
+      background: #000;
+      object-fit: contain;
     }
-    .work-video-placeholder {
+    /* ===== 视频封面：默认只显示封面，点一下才真正加载视频 ===== */
+    .video-poster {
       position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: 0; padding: 16px; margin: 0;
       display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 12px;
-      background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
+      align-items: center; justify-content: center; gap: 10px;
+      color: var(--text); font-family: inherit; text-align: center;
+      -webkit-appearance: none; appearance: none;
+      background:
+        radial-gradient(circle at 30% 22%, hsla(var(--h, 255), 70%, 62%, .20), transparent 62%),
+        linear-gradient(135deg, hsl(var(--h, 255) 40% 14%), hsl(calc(var(--h, 255) + 35) 45% 9%));
       cursor: pointer;
     }
-    .play-icon {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: rgba(124,92,252,0.2);
-      border: 2px solid rgba(124,92,252,0.5);
+    .work-card:nth-child(3n+1) { --h: 255; }
+    .work-card:nth-child(3n+2) { --h: 288; }
+    .work-card:nth-child(3n+3) { --h: 200; }
+    .poster-play {
+      width: 58px; height: 58px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem;
-      transition: all .2s;
+      background: rgba(124,92,252,.28);
+      border: 2px solid rgba(180,138,255,.65);
+      font-size: 1.5rem; padding-left: 4px;
+      box-shadow: 0 4px 24px rgba(124,92,252,.3);
+      flex-shrink: 0;
+      transition: transform .2s;
     }
-    .work-video-placeholder:hover .play-icon {
-      background: rgba(124,92,252,0.4); transform: scale(1.1);
+    .video-poster:hover .poster-play { transform: scale(1.08); }
+    .poster-text { font-size: .92rem; font-weight: 600; }
+    .poster-sub { font-size: .75rem; color: var(--muted); }
+    .video-poster.is-loading .poster-play {
+      font-size: 0; padding-left: 0;
+      border-top-color: #fff;
+      animation: spin .9s linear infinite;
     }
-    .placeholder-hint { font-size: 0.78rem; color: var(--muted); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .video-poster.is-error .poster-play {
+      font-size: 1.4rem; padding-left: 0;
+      background: rgba(255,110,110,.16);
+      border-color: rgba(255,130,130,.7);
+      animation: none;
+    }
+    /* 播放不了时的备用链接 */
+    .video-fallback {
+      position: absolute; right: 8px; bottom: 8px; z-index: 3;
+      font-size: .72rem; padding: 5px 11px; border-radius: 20px;
+      background: rgba(13,13,18,.88);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .video-fallback:hover { color: var(--accent2); }
     .work-info { padding: 18px 20px; }
     .work-title { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
     .work-desc { font-size: 0.85rem; color: var(--muted); }
@@ -371,6 +405,17 @@
       .nav-links { display: none; }
       .timeline::before { display: none; }
       .timeline-item { flex-direction: column; gap: 12px; }
+      /* ↓ 以下是手机端提速：去掉吃 GPU 的大面积模糊与动画 */
+      .orb { display: none; }
+      nav { backdrop-filter: none; background: rgba(13,13,18,.97); }
+      section { padding: 64px 5vw; }
+      .section-header { margin-bottom: 40px; }
+      .works-grid { grid-template-columns: 1fr; gap: 18px; }
+      .filter-bar { gap: 8px; margin-bottom: 30px; }
+      .filter-btn { padding: 7px 14px; font-size: .8rem; }
+      .video-fallback { backdrop-filter: none; }
+      .video-poster, .poster-play, .btn, .work-card, .contact-card { transition: none; }
+      .work-card:hover, .contact-card:hover { transform: none; }
     }
   </style>
 </head>
@@ -550,6 +595,7 @@
     <h2 class="section-title">作品集</h2>
     <div class="divider"></div>
     <p style="color:var(--muted);margin-top:14px;font-size:0.9rem;">
+      📱 手机已优化：视频默认不加载，点封面才开始缓冲；建议在 WiFi 下观看
     </p>
   </div>
 
@@ -567,18 +613,36 @@
 
   <!--
   =====================================================
-  【添加视频说明】
-  找到对应分类区块，复制一个 work-card，
-  将 work-video-placeholder 整块替换为 B站嵌入代码：
+  【以后怎么加新视频？】复制一个 work-card，把里面的 video-poster 改掉即可。
+  重要：视频默认不加载，访客点封面才开始缓冲，手机才不会卡。
 
-  <iframe src="//player.bilibili.com/player.html?bvid=BV你的号&high_quality=1"
-          scrolling="no" frameborder="no" allowfullscreen="true"
-          style="position:absolute;inset:0;width:100%;height:100%"></iframe>
+  ① B站视频（推荐，最省流量）：
+     data-src  = B站"嵌入代码"里的 player.bilibili.com 地址，务必用 https:// 开头
+     data-bili = https://www.bilibili.com/video/BV开头那串号
+  ② 本地视频：
+     data-src  = videos/你的文件.mp4（videos 文件夹要和本网页放在同一个目录/同一个仓库）
+     如果视频放在别处，改脚本开头的 VIDEO_BASE，不用逐个改地址。
+     建议压到 720p、码率 2Mbps 以内，文件太大手机上依然会慢。
 
-  或本地视频：
-  <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-    <source src="videos/xxx.mp4" type="video/mp4">
-  </video>
+  本地视频写法：
+  <div class="work-video">
+    <button class="video-poster" type="button" data-kind="local" data-src="videos/xxx.mp4">
+      <span class="poster-play">▶</span>
+      <span class="poster-text">点击播放</span>
+      <span class="poster-sub">点击后才加载</span>
+    </button>
+  </div>
+
+  B站视频写法（把 BV 号换成自己的）：
+  <div class="work-video">
+    <button class="video-poster" type="button" data-kind="bili"
+            data-src="https://player.bilibili.com/player.html?bvid=BVxxxxxxxx&p=1&autoplay=0"
+            data-bili="https://www.bilibili.com/video/BVxxxxxxxx">
+      <span class="poster-play">▶</span>
+      <span class="poster-text">点击播放</span>
+      <span class="poster-sub">点击后才加载</span>
+    </button>
+  </div>
   =====================================================
   -->
 
@@ -588,7 +652,11 @@
     <div class="works-grid">
       <div class="work-card">
         <div class="work-video">
-          <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=653070270&bvid=BV19Y4y1C7io&cid=1041253237&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%"></iframe>
+          <button class="video-poster" type="button" data-kind="bili" data-src="https://player.bilibili.com/player.html?isOutside=true&amp;aid=653070270&amp;bvid=BV19Y4y1C7io&amp;cid=1041253237&amp;p=1&amp;autoplay=0&amp;high_quality=0&amp;danmaku=0" data-bili="https://www.bilibili.com/video/BV19Y4y1C7io">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">作品总集 Vol.1</div>
@@ -597,9 +665,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/showreel-2025.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/showreel-2025.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">作品总集 Vol.2</div>
@@ -615,9 +685,11 @@
     <div class="works-grid">
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/mg-game-ad.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/mg-game-ad.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">游戏投放病毒短视频</div>
@@ -626,9 +698,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/mg-lvcheng.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/mg-lvcheng.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">绿程优品宣传动画</div>
@@ -637,9 +711,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/mg-lolanxini.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/mg-lolanxini.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">罗兰西尼宣传动画</div>
@@ -648,9 +724,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/mg-douyin-ai-voice.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/mg-douyin-ai-voice.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">抖音短视频科普动画</div>
@@ -666,9 +744,11 @@
     <div class="works-grid">
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/pkg-shejian4.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/pkg-shejian4.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">舌尖4文字包装</div>
@@ -677,9 +757,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/pkg-qiu-chengtong.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/pkg-qiu-chengtong.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">《我的艺术清单》包装</div>
@@ -688,9 +770,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/pkg-tencent-map.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/pkg-tencent-map.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">腾讯地图活动包装</div>
@@ -699,7 +783,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=117562801134547&bvid=BV1y8446DEW5&cid=43348201190&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%"></iframe>
+          <button class="video-poster" type="button" data-kind="bili" data-src="https://player.bilibili.com/player.html?isOutside=true&amp;aid=117562801134547&amp;bvid=BV1y8446DEW5&amp;cid=43348201190&amp;p=1&amp;autoplay=0&amp;high_quality=0&amp;danmaku=0" data-bili="https://www.bilibili.com/video/BV1y8446DEW5">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">腾讯数字孪生包装动画</div>
@@ -715,9 +803,11 @@
     <div class="works-grid">
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/aifx-animal.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/aifx-animal.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">AI替换动物</div>
@@ -726,9 +816,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/aifx-beauty-cloth.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/aifx-beauty-cloth.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">AI美颜+换衣服</div>
@@ -737,9 +829,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/aifx-cloth.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/aifx-cloth.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">AI特效</div>
@@ -755,9 +849,11 @@
     <div class="works-grid">
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/post-international-song.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/post-international-song.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">国际儿歌</div>
@@ -766,7 +862,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=117562818039820&bvid=BV1pv446EEB2&cid=43348265287&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%"></iframe>
+          <button class="video-poster" type="button" data-kind="bili" data-src="https://player.bilibili.com/player.html?isOutside=true&amp;aid=117562818039820&amp;bvid=BV1pv446EEB2&amp;cid=43348265287&amp;p=1&amp;autoplay=0&amp;high_quality=0&amp;danmaku=0" data-bili="https://www.bilibili.com/video/BV1pv446EEB2">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">书声教育英语实拍+动画</div>
@@ -775,7 +875,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=117562801133041&bvid=BV1y8446DEYz&cid=43348264433&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%"></iframe>
+          <button class="video-poster" type="button" data-kind="bili" data-src="https://player.bilibili.com/player.html?isOutside=true&amp;aid=117562801133041&amp;bvid=BV1y8446DEYz&amp;cid=43348264433&amp;p=1&amp;autoplay=0&amp;high_quality=0&amp;danmaku=0" data-bili="https://www.bilibili.com/video/BV1y8446DEYz">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">书声教育英语实拍+动画</div>
@@ -791,9 +895,11 @@
     <div class="works-grid">
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/aishort-1.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/aishort-1.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">自制AI 短片1</div>
@@ -802,9 +908,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/aishort-2.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/aishort-2.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">自制AI 短片2</div>
@@ -820,9 +928,11 @@
     <div class="works-grid">
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/aidemo-zenstudio.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/aidemo-zenstudio.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">ZenStudio AI 影视后期宣传</div>
@@ -831,9 +941,11 @@
       </div>
       <div class="work-card">
         <div class="work-video">
-          <video controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <source src="videos/aidemo-rally.mp4" type="video/mp4">
-          </video>
+          <button class="video-poster" type="button" data-kind="local" data-src="videos/aidemo-rally.mp4">
+            <span class="poster-play">▶</span>
+            <span class="poster-text">点击播放</span>
+            <span class="poster-sub">点击后才加载</span>
+          </button>
         </div>
         <div class="work-info">
           <div class="work-title">Work rally 宣传</div>
@@ -885,41 +997,200 @@
 </footer>
 
 <script>
-  // 分类筛选
+(function () {
+  'use strict';
+
+  /* 【可选设置】视频文件夹的位置 —— 一般保持 '' 不用改。
+     '' = videos 文件夹和本网页在同一个网站目录下（GitHub Pages 同仓库就是这种）。
+     如果视频放在别处（CDN / 对象存储 / 视频只在 GitHub 仓库里、网页却部署在别的平台），
+     把下面引号里填成网站根目录地址，末尾要带 / ，例如：
+       const VIDEO_BASE = 'https://cdn.jsdelivr.net/gh/你的用户名/portfolio@main/';
+     16 个视频会自动拼成「前缀 + videos/文件名」，不用一个个改地址。 */
+  const VIDEO_BASE = '';
+
+  /* ---------- 1. 分类筛选 ---------- */
   const filterBtns = document.querySelectorAll('.filter-btn');
   const categories = document.querySelectorAll('.works-category');
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      categories.forEach(cat => {
-        if (filter === 'all' || cat.dataset.category === filter) {
-          cat.classList.remove('hidden');
-        } else {
-          cat.classList.add('hidden');
-        }
+  /* ---------- 2. 视频点封面才加载（手机端提速的关键） ---------- */
+  function setPosterState(btn, state) {
+    const play = btn.querySelector('.poster-play');
+    const text = btn.querySelector('.poster-text');
+    const sub  = btn.querySelector('.poster-sub');
+    btn.classList.remove('is-loading', 'is-error');
+    if (state === 'loading') {
+      btn.classList.add('is-loading');
+      play.textContent = '';
+      text.textContent = '正在加载…';
+      sub.textContent  = '首次缓冲请稍候，建议连 WiFi';
+    } else if (state === 'error') {
+      btn.classList.add('is-error');
+      play.textContent = '↻';
+      text.textContent = '没加载出来，点这里重试';
+      sub.textContent  = btn.dataset.err || '请检查网络后重试';
+    } else {
+      play.textContent = '▶';
+      text.textContent = btn.dataset.title || '点击播放';
+      sub.textContent  = '点击才加载 · ' + (btn.dataset.kind === 'bili' ? 'B站视频' : '本地视频');
+    }
+  }
+
+  function resetPoster(box) {
+    const btn = box.querySelector('.video-poster');
+    if (!btn) return;
+    box.querySelectorAll('video, iframe, .video-fallback').forEach(function (el) { el.remove(); });
+    delete box.dataset.loaded;
+    delete box.dataset.kind;
+    btn.style.display = '';
+    setPosterState(btn, 'idle');
+  }
+
+  function hidePoster(box) {
+    const btn = box.querySelector('.video-poster');
+    if (btn) btn.style.display = 'none';
+  }
+
+  function addFallback(box, biliUrl) {
+    if (!biliUrl || box.querySelector('.video-fallback')) return;
+    const a = document.createElement('a');
+    a.className = 'video-fallback';
+    a.href = biliUrl;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = '↗ 播放不了？在 B站打开';
+    box.appendChild(a);
+  }
+
+  document.querySelectorAll('.video-poster').forEach(function (btn) {
+    const card = btn.closest('.work-card');
+    const titleEl = card && card.querySelector('.work-title');
+    btn.dataset.title = titleEl ? titleEl.textContent.trim() : '点击播放';
+    btn.setAttribute('aria-label', '播放：' + btn.dataset.title);
+    setPosterState(btn, 'idle');
+
+    btn.addEventListener('click', function () {
+      const box = btn.parentElement;
+      const kind = btn.dataset.kind;
+      const src = btn.dataset.src;
+
+      // 上次失败后再点 = 重试
+      if (box.dataset.loaded === 'error') resetPoster(box);
+      if (box.dataset.loaded === '1' || box.dataset.loaded === 'done') return;
+
+      setPosterState(btn, 'loading');
+      box.dataset.loaded = '1';
+      box.dataset.kind = kind;
+
+      let media, timer;
+      function fail(msg) {
+        clearTimeout(timer);
+        btn.dataset.err = msg;
+        box.dataset.loaded = 'error';
+        if (media && media.parentNode) media.remove();
+        btn.style.display = '';
+        setPosterState(btn, 'error');
+      }
+
+      timer = setTimeout(function () {
+        const sub = btn.querySelector('.poster-sub');
+        if (sub && box.dataset.loaded === '1') sub.textContent = '网络较慢，还在缓冲…请稍候';
+      }, 8000);
+
+      if (kind === 'local') {
+        media = document.createElement('video');
+        media.controls = true;
+        media.preload = 'metadata';
+        media.setAttribute('playsinline', '');
+        media.setAttribute('webkit-playsinline', '');
+        media.addEventListener('loadeddata', function () {
+          clearTimeout(timer);
+          hidePoster(box);
+          box.dataset.loaded = 'done';
+          const p = media.play();
+          if (p && p.catch) p.catch(function () {});
+        }, { once: true });
+        // 手机上同时解码多个视频会很卡：开始播放一个时，自动暂停其它视频
+        media.addEventListener('play', function () {
+          document.querySelectorAll('.work-video video').forEach(function (v) {
+            if (v !== media) { try { v.pause(); } catch (err) {} }
+          });
+        });
+        media.addEventListener('error', function () {
+          fail('找不到视频文件。请确认 videos 文件夹已和网页一起部署，或设置 VIDEO_BASE');
+        }, { once: true });
+        media.src = VIDEO_BASE + src;
+      } else {
+        media = document.createElement('iframe');
+        media.setAttribute('allowfullscreen', 'true');
+        media.setAttribute('scrolling', 'no');
+        media.setAttribute('frameborder', 'no');
+        media.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+        media.title = '视频播放器';
+        media.addEventListener('load', function () {
+          clearTimeout(timer);
+          hidePoster(box);
+          box.dataset.loaded = 'done';
+        }, { once: true });
+        media.src = src;
+        // 部分手机浏览器会拦 B站嵌入式播放器，所以常驻一个备用链接
+        addFallback(box, btn.dataset.bili);
+        // 6 秒还没响应就不再转圈，直接露出播放器 / 备用链接
+        setTimeout(function () {
+          if (box.dataset.loaded === '1') {
+            clearTimeout(timer);
+            hidePoster(box);
+            box.dataset.loaded = 'done';
+          }
+        }, 6000);
+      }
+      box.appendChild(media);
+    });
+  });
+
+  // 切换分类时，让被隐藏的作品不再偷偷下载 / 出声，省流量省电
+  function quietHiddenMedia() {
+    categories.forEach(function (cat) {
+      if (!cat.classList.contains('hidden')) return;
+      cat.querySelectorAll('video').forEach(function (v) { try { v.pause(); } catch (e) {} });
+      cat.querySelectorAll('.work-video').forEach(function (box) {
+        if (box.dataset.kind === 'bili') resetPoster(box);
       });
     });
-  });
+  }
 
-  // Smooth reveal on scroll
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filterBtns.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      categories.forEach(function (cat) {
+        const show = filter === 'all' || cat.dataset.category === filter;
+        cat.classList.toggle('hidden', !show);
+      });
+      quietHiddenMedia();
     });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.timeline-body, .work-card, .contact-card, .about-grid').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
   });
+
+  /* ---------- 3. 滚动淡入：手机端直接关闭，避免动画拖慢渲染 ---------- */
+  const simple = window.matchMedia('(max-width: 768px), (prefers-reduced-motion: reduce)').matches;
+  if (!simple && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'none';
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.timeline-body, .work-card, .contact-card, .about-grid').forEach(function (el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity .5s ease, transform .5s ease';
+      observer.observe(el);
+    });
+  }
+})();
 </script>
 </body>
 </html>
