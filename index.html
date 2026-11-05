@@ -1047,7 +1047,10 @@
 
   function hidePoster(box) {
     const btn = box.querySelector('.video-poster');
-    if (btn) btn.style.display = 'none';
+    if (btn) {
+      btn.classList.remove('is-loading');
+      btn.style.display = 'none';
+    }
   }
 
   function addFallback(box, biliUrl) {
@@ -1099,10 +1102,12 @@
       if (kind === 'local') {
         media = document.createElement('video');
         media.controls = true;
-        media.preload = 'metadata';
+        media.preload = 'auto';
         media.setAttribute('playsinline', '');
         media.setAttribute('webkit-playsinline', '');
-        media.addEventListener('loadeddata', function () {
+        // 用 loadedmetadata 而不是 loadeddata：手机浏览器常常只先给元数据、
+        // 不给首帧，等 loadeddata 会让封面一直卡在「正在加载…」
+        media.addEventListener('loadedmetadata', function () {
           clearTimeout(timer);
           hidePoster(box);
           box.dataset.loaded = 'done';
